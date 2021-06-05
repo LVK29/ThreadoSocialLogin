@@ -9,7 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
-	String ROLE_PREFIX = "ROLE_";
 	private String userName;
 	private String password;
 	private boolean active;
@@ -17,16 +16,9 @@ public class CustomUserDetails implements UserDetails {
 	private String role;
 
 	public CustomUserDetails(Customer user) {
-		// convert string userType to GrantedAuthority
-		// List<GrantedAuthority> authority = new ArrayList<GrantedAuthority>();
-		// authority.add(new SimpleGrantedAuthority(user.getUserType().toString()));
-
 		this.userName = user.getEmail();
 		this.password = null;
 		this.active = true;
-
-		// this.authorities = authority;
-		// this.role = ROLE_PREFIX + user.getUserType().toString();
 
 	}
 

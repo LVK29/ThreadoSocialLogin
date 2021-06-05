@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 import com.Threado.security.social.SocialAuthProviderGranter;
 
@@ -38,17 +38,10 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Autowired
-	private DataSource dataSource;
-
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		//security.allowFormAuthenticationForClients();
-		 security.allowFormAuthenticationForClients().checkTokenAccess("permitAll()"); 
-		 
+		security.allowFormAuthenticationForClients().checkTokenAccess("permitAll()");
+
 	}
 
 	@Override
@@ -56,35 +49,36 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
 
 		clients.inMemory().withClient(env.getProperty("user.oauth.clientId"))
 				.secret(passwordEncoder.encode(env.getProperty("user.oauth.clientSecret")))
-				.authorizedGrantTypes("password", "social", "client_credentials", "refresh_token").scopes("openid")
-				.accessTokenValiditySeconds(46000).refreshTokenValiditySeconds(36000);
+				.authorizedGrantTypes("social", "refresh_token").scopes("openid").accessTokenValiditySeconds(46000)
+				.refreshTokenValiditySeconds(36000);
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
-		endpoints.tokenGranter(tokenGranter(endpoints,authenticationManager));
+		endpoints.tokenGranter(tokenGranter(endpoints, authenticationManager));
 	}
 
-	private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints, AuthenticationManager authenticationManager) {
+	private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints,
+			AuthenticationManager authenticationManager) {
 		List<TokenGranter> granters = new ArrayList<TokenGranter>(Arrays.asList(endpoints.getTokenGranter()));
-		granters.add(new SocialAuthProviderGranter(authenticationManager,endpoints.getTokenServices(), endpoints.getClientDetailsService(),
-				endpoints.getOAuth2RequestFactory()));
+		granters.add(new SocialAuthProviderGranter(authenticationManager, endpoints.getTokenServices(),
+				endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory()));
 		return new CompositeTokenGranter(granters);
 	}
 
-//	@Bean
-//	public TokenStore tokenStore() {
-//		return new InMemoryTokenStore();
-//	}
+	@Bean
+	public TokenStore tokenStore() {
+		return new InMemoryTokenStore();
+	}
 
 	/*
 	 * we are using JDBC tokenStore, and if the SQL queries to create oauthTable
 	 * arent executed, this will fail. Alternatively you can use the
 	 * InMemoryTokenStore method to bypass this
 	 */
-	@Bean
-	public TokenStore tokenStore() {
-		return new JdbcTokenStore(dataSource);
-	}
+//	@Bean
+//	public TokenStore tokenStore() {
+//		return new JdbcTokenStore(dataSource);
+//	}
 }
