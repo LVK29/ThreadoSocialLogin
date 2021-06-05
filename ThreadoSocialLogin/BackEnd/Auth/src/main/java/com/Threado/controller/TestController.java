@@ -11,12 +11,11 @@ public class TestController {
 
 	@GetMapping("/test")
 	public String test() {
-		return "Ola amigo";
+		return "If youre seeing this, your token is valid";
 	}
 	
 	@PutMapping("/register")
 	public String test1() {
-		System.out.println("ourch");
-		return "register Controller hit";
+		return "Anyone can see this";
 	}	
 }

@@ -14,17 +14,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 
 		
-		http.authorizeRequests();//.antMatchers("/register").permitAll();
+		http.authorizeRequests().antMatchers("/register").permitAll();
 		http.csrf().disable().authorizeRequests().anyRequest().authenticated();
 
 
 	}
-
-//	private static final String RESOURCE_ID = "digitalEntryPass";
-//
-//	@Override
-//	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-//		resources.resourceId(RESOURCE_ID);
-//	}
 
 }

@@ -28,13 +28,12 @@ public class CustomerAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication paramAuthentication) throws AuthenticationException {
-		// TODO Auto-generated method stub
 
 		final CustomerAuthenticationToken customerSocialToken = (CustomerAuthenticationToken) paramAuthentication;
 
-		// check if fields are valid/ not null etc
-
+		// check if fields are valid/ not null etc if needed
 		String customerEmail = customerSocialToken.getEmail();
+
 		UserDetails userDetails = getCustomerUserDetails(customerEmail);
 		if (userDetails == null) {
 			// create new userdetials for user
