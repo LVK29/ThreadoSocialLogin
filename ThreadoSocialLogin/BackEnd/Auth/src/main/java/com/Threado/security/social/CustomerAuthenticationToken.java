@@ -5,11 +5,7 @@ import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class CustomerAuthenticationToken extends AbstractAuthenticationToken {
 
 	private String email;
@@ -43,5 +39,38 @@ public class CustomerAuthenticationToken extends AbstractAuthenticationToken {
 		// TODO Auto-generated method stub
 		return email;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
+	public String getLoginSource() {
+		return loginSource;
+	}
+
+	public void setLoginSource(String loginSource) {
+		this.loginSource = loginSource;
+	}
+		
 
 }
