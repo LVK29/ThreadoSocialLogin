@@ -15,13 +15,13 @@ public class Customer {
 	@Column(unique = true)
 	private String email;
 	private String name;
-	private String loginSource;
+	private LoginSource loginSource;
 	private String profileImage;
 
 	public Customer() {
 	}
 
-	public Customer(String email, String name, String loginSource, String profileImage) {
+	public Customer(String email, String name, LoginSource loginSource, String profileImage) {
 		super();
 		this.email = email;
 		this.name = name;
@@ -49,12 +49,13 @@ public class Customer {
 		this.name = name;
 	}
 
-	public String getLoginSource() {
+	public LoginSource getLoginSource() {
 		return loginSource;
 	}
 
 	public void setLoginSource(String loginSource) {
-		this.loginSource = loginSource;
+		this.loginSource = LoginSource.valueOf(loginSource);
+
 	}
 
 	public String getProfileImage() {
