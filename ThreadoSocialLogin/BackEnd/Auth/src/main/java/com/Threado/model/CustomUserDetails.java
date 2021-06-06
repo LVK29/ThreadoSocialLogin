@@ -10,14 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
 	private String userName;
-	private String password;
 	private boolean active;
 	private List<GrantedAuthority> authorities = new ArrayList<>();
 	private String role;
 
 	public CustomUserDetails(Customer user) {
 		this.userName = user.getEmail();
-		this.password = null;
 		this.active = true;
 
 	}
@@ -31,7 +29,7 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return password;
+		return null;
 	}
 
 	@Override
