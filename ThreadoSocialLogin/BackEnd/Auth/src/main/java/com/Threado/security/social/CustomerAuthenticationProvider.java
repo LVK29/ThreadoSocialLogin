@@ -51,7 +51,6 @@ public class CustomerAuthenticationProvider implements AuthenticationProvider {
 	private void updateCustomer(final CustomerAuthenticationToken customerSocialToken, String customerEmail) {
 		Customer customerModel = customerRepository.findByEmail(customerEmail);
 		customerModel.setName(customerSocialToken.getName());
-		//if(customerSocialToken.getLoginSource())
 		customerModel.setLoginSource(customerSocialToken.getLoginSource());
 		customerModel.setProfileImage(customerSocialToken.getProfilePic());
 		customerRepository.save(customerModel);
